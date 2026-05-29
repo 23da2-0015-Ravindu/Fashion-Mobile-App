@@ -1,0 +1,27 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "ravindu-fashion-app",
+          "appId": "1:1093569764884:android:8950218c329625514e5101",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "ravindu-fashion-app",
+          "configurations": {
+            "android": "1:1093569764884:android:8950218c329625514e5101",
+            "ios": "1:1093569764884:ios:6eb866f54292299b4e5101",
+            "web": "1:1093569764884:web:b358627f2b44ee724e5101",
+            "windows": "1:1093569764884:web:327cb9be210f669e4e5101"
+          }
+        }
+      }
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  }
+}

@@ -1,0 +1,45 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /users/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update: if request.auth != null && request.auth.uid == userId;
+      allow delete: if false;
+
+      match /wishlist/{productId} {
+        allow read, create, update, delete: if request.auth != null
+          && request.auth.uid == userId;
+      }
+    }
+
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /orders/{orderId} {
+      allow read: if request.auth != null
+        && resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null
+        && request.resource.data.userId == request.auth.uid;
+      allow delete: if false;
+      // Owner may cancel: only status changes to Cancelled; other fields unchanged.
+      allow update: if request.auth != null
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.items == resource.data.items
+        && request.resource.data.subtotal == resource.data.subtotal
+        && request.resource.data.deliveryFee == resource.data.deliveryFee
+        && request.resource.data.total == resource.data.total
+        && request.resource.data.fullName == resource.data.fullName
+        && request.resource.data.phone == resource.data.phone
+        && request.resource.data.address == resource.data.address
+        && request.resource.data.city == resource.data.city
+        && request.resource.data.note == resource.data.note
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.status == 'Cancelled';
+    }
+  }
+}
